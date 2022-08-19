@@ -7,7 +7,7 @@ from veggies_service.db.veggies_models.models import OTP, Login, User
 from veggies_service.service_apis_handler.login_handler import create_login, get_login_user
 from veggies_service.utils.exceptions import UnauthorisedException, NotFoundException
 from veggies_service.utils.sms_utils import generate_otp, send_otp_msg91
-
+import uuid
 
 def handle_logout(token):
     login_object = get_login_by_token(token)
@@ -28,18 +28,22 @@ def handle_resend_otp(token):
 
 def verify_and_send_otp(data):
     mobile = data['mobile']
+    # SEND_SMS = False
     try:
         user_object = User.objects.get(mobile=mobile)
     except Exception as e:
         raise NotFoundException(entity='User')
     otp = generate_otp()
+    print("hi1")
     if SEND_SMS == 'False':
         otp = OTP.objects.create(user=user_object, otp=otp, request_id="2122")
         return True
     # request_id = send_otp_msg91(mobile, otp)
-    request_id = True
+  
+    request_id = str(uuid.uuid4())
     if request_id:
         otp = OTP.objects.create(user=user_object, otp=otp, request_id=request_id)
+       
         return True
 
 
@@ -66,7 +70,9 @@ def get_user_for_otp(data):
         user_object.save()
         user_object.refresh_from_db()
     otp_object = user_object.otp_set.last()
+    # print(otp_object.otp)
     # if otp_object.otp != req_otp:
+    # print(user_object)
     if "12345" != req_otp:
 
         raise UnauthorisedException()

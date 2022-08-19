@@ -26,7 +26,7 @@ class User(BaseResource):
         else:
             if 'resend' in request_data:
                 user = user_handler.get_user_by_mobile(request_data.get('mobile'))
-                user_handler.send_verification_email(user)
+                # user_handler.send_verification_email(user)
                 return {'success': True}
             if user_handler.is_user_exists(request_data['mobile']):
                 raise AlreadyExist(entity='User')

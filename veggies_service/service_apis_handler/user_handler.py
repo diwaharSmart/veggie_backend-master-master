@@ -22,7 +22,7 @@ def is_user_present_for_verification_code(token):
 def send_verification_email(user):
     url = service_constants.SERVICE_URL + email_constants.EMAIL_VERIFY_END_POINT + '?token=' + user.verification_code
     message = '<h3>Hi ' + user.first_name + ' ' + user.last_name + ',<br><p>' + email_constants.EMAIL_VERIFICATION_MESSAGE + ' <a href=' + url + '>' + url + '</a><h3>'
-    send_email_with_attachments(user.email, email_constants.EMAIL_VERIFICATION_SUBJECT, html=message)
+    # send_email_with_attachments(user.email, email_constants.EMAIL_VERIFICATION_SUBJECT, html=message)
 
 
 @transaction.atomic
@@ -46,7 +46,7 @@ def create_user(data, is_admin=None):
     user_object.verification_code=str(uuid.uuid4())
     user_object.save()
     user_object.refresh_from_db()
-    send_verification_email(user_object)
+    # send_verification_email(user_object)
     # user_object.is_email_verified = True
     user_object.save()
     return user_object

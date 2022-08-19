@@ -12,12 +12,12 @@ from veggies_service.utils.exceptions import GenericCustomException
 
 def generate_otp():
     return 123456
-    digits = [i for i in range(0, 10)]
-    random_str = ""
-    for i in range(6):
-        index = int(math.floor(random.random() * 10))
-        random_str += str(digits[index])
-    return int(random_str)
+    # digits = [i for i in range(0, 10)]
+    # random_str = ""
+    # for i in range(6):
+    #     index = int(math.floor(random.random() * 10))
+    #     random_str += str(digits[index])
+    # return int(random_str)
 
 
 def send_otp(mobile, otp):
@@ -25,7 +25,7 @@ def send_otp(mobile, otp):
     url = url + "username=" + sms_service_constans.USERNAME + "&password=" + sms_service_constans.PASSWORD + "&type=TEXT&sender=" + sms_service_constans.SENDER + "&mobile=" + str(
         mobile) + "&message=" + str(
         otp) + " is your one time password for login."
-    print url
+    # print url
     response = requests.get(url)
     print response.content
     if (response.content.split('|')[0]).strip() == 'SUBMIT_SUCCESS':

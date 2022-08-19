@@ -6,6 +6,7 @@ from veggies_service.utils.exceptions import GenericCustomException
 
 def create_login(user_object, otp_object):
     try:
+        print(otp_object.otp)
         login_object = Login.objects.create(user=user_object, otp=otp_object, token=str(uuid4()))
         return login_object
     except Exception as e:
